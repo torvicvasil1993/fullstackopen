@@ -37,6 +37,9 @@ const App = () => {
   }
 
   const getMaxVoted = () => {
+    /* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
+    https://bobbyhadz.com/blog/javascript-get-index-of-max-value-in-array
+     */
     let max = Math.max(...arrVotes);
     let index = arrVotes.indexOf(max);
     console.log(anecdotes[index])
