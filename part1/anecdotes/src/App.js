@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
+const Votes = ( {votes} ) => <div>has {votes} votes</div>
 
 const App = () => {
   const anecdotes = [
@@ -15,17 +16,35 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [arrVotes, setVotes] = useState(new Uint8Array(anecdotes.length))
+
 
   /* https://www.udacity.com/blog/2021/04/javascript-random-numbers.html#:~:text=Generating%20Javascript%20Random%20Numbers,it%20will%20never%20be%201. */
-  const randomAnecdote = () => {
-    let randomNum = Math.floor(Math.random() * anecdotes.length);
-    setSelected(randomNum)
+
+  const randomAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+ 
+  const getVotes = () => {
+    if (arrVotes.length === 0) {
+      return 0;
+    }
+    return arrVotes[selected];
+  }
+
+  const handleVotes = () => {
+    console.log(selected)
+    console.log(arrVotes)
+    const copy = [...arrVotes]
+    copy[selected] += 1 
+    setVotes(copy)
   }
 
   return (
     <div>
       <div>{anecdotes[selected]}</div>
+      <Votes votes={getVotes()} />
+      <Button onClick={handleVotes} text="vote"/>
       <Button onClick={randomAnecdote} text="next anecdote"/>
+      
     </div>
   )
 }
