@@ -11,7 +11,17 @@ const App = () => {
     const personObject = {
       name: newName,
     }
-    setPersons(persons.concat(personObject))
+    // ref.: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+    // https://flaviocopes.com/how-to-check-undefined-property-javascript/#:~:text=%E2%AD%90%EF%B8%8F-,In%20a%20JavaScript%20program%2C%20the%20correct%20way%20to%20check%20if,to%20use%20the%20typeof%20operator.&text=If%20the%20value%20is%20not,returns%20the%20'undefined'%20string.
+    let found = persons.find(element => element.name === newName)
+    console.log("found",found)
+    if (typeof(found) !== 'undefined' && found.name === newName) {
+      //https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
+      window.alert(`${newName} is already added to phonebook`);
+    }
+    else {
+      setPersons(persons.concat(personObject))
+    }
     setNewName('')
   }
 
