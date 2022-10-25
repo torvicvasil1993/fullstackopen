@@ -26,10 +26,12 @@ const Part = (props) => {
   )
 }
 
+/* https://stackoverflow.com/questions/5732043/how-to-call-reduce-on-an-array-of-objects-to-sum-their-properties */
 const Total = (props) => {
-  console.log("Total",props)
+  console.log("Total",props.parts)
+  const total = props.parts.reduce((s, p) => s + p.exercises, 0)
   return (
-    <div>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</div>
+    <div><strong>total of {total} exercises</strong></div>
   )
 }
 
