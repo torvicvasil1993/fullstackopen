@@ -1,11 +1,25 @@
 import { useState } from 'react'
 
+
+/* 
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
+https://reactjs.org/docs/forms.html#controlled-components
+https://reactjs.org/docs/forms.html
+*/
+
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' }
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
+    { name: 'Arto Temple', number: '040-123456', id: 5 }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
+  const [personsFiltered, setPersonsFiltered] = useState(persons)
+
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -23,8 +37,10 @@ const App = () => {
     }
     else {
       setPersons(persons.concat(personObject))
+      setPersonsFiltered(persons.concat(personObject))
     }
     setNewName('')
+    setNewNumber('')
   }
 
 
@@ -36,11 +52,52 @@ const App = () => {
   const handlePersonNumber = (event) => {
     console.log(event.target.value)
     setNewNumber(event.target.value)
+    
+  }
+
+  /* Refs.:
+  https://www.w3schools.com/jsref/jsref_includes_array.asp
+  https://www.w3schools.com/jsref/jsref_foreach.asp
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+  https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase
+  https://www.freecodecamp.org/news/how-to-insert-an-element-into-an-array-in-javascript/#:~:text=When%20you%20want%20to%20add,your%20array%2C%20use%20splice()%20.
+  
+  */
+  const handleFilter = (event) => {
+    let filtered = []
+    setNewFilter(event.target.value)
+    persons.forEach(person => {
+      //console.log(event.target.value)
+      //console.log(person)
+      //console.log(person.name.toLowerCase().includes(event.target.value))
+      if(person.name.toLowerCase().includes(event.target.value.toLowerCase())) {
+        filtered.push(person)
+        //console.log(filtered)
+      }
+    })
+    if(event.target.value === " "){
+      filtered = []
+    }
+    if(event.target.value === ""){
+      filtered = [...persons]
+    }
+    setPersonsFiltered(filtered)
+    console.log(filtered)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <form>
+        <div>
+          filter shown with: <input 
+          value={newFilter}
+          onChange={handleFilter}
+          />
+        </div>
+      </form>
+      <h2>add a new</h2>
       <form onSubmit={addPerson}>
         <div>
           name: <input 
@@ -59,7 +116,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person =>
+      {personsFiltered.map(person =>
           <div key={person.name}> {person.name} {person.number}</div>
         )}
 
