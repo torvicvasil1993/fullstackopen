@@ -1,11 +1,14 @@
 import { useState } from 'react'
-
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 /* 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
 https://reactjs.org/docs/forms.html#controlled-components
 https://reactjs.org/docs/forms.html
 */
+
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -89,37 +92,19 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          filter shown with: <input 
-          value={newFilter}
-          onChange={handleFilter}
-          />
-        </div>
-      </form>
+      <Filter value={newFilter} onChange={handleFilter} />
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input 
-          value={newName}
-          onChange={handlePersonChange}
-          />
-        </div>
-        <div>
-          number: <input 
-          value={newNumber}
-          onChange={handlePersonNumber}
+       <PersonForm 
+          onSubmitAddPerson={addPerson} 
+          valuePerson={newName}
+          onChangePerson={handlePersonChange}
+          valueNewNumber={newNumber}
+          onChangePersonNumber={handlePersonNumber}
         />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
       <h2>Numbers</h2>
       {personsFiltered.map(person =>
-          <div key={person.name}> {person.name} {person.number}</div>
-        )}
-
+          <Persons key={person.name} person={person} />
+      )}
     </div>
   )
 }
