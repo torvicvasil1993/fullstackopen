@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Filter from './components/Filter'
-import Countries from './components/Countries'
+import Content from './components/Content'
 
 const App = () => {
 
@@ -18,7 +18,6 @@ const App = () => {
         console.log('promise fulfilled')
         //console.log(response.data)
         setCountries(response.data)
-        setCountriesFiltered(response.data)
       })
     }, [])
 
@@ -27,10 +26,11 @@ const App = () => {
     setNewFilter(event.target.value)
     console.log(event.target.value)
      countries.forEach(country => {
-      console.log(country.name.common.toLowerCase().includes(event.target.value.toLowerCase()))
+      //console.log(country.name.common.toLowerCase().includes(event.target.value.toLowerCase()))
       if(country.name.common.toLowerCase().includes(event.target.value.toLowerCase())) {
         filtered.push(country)
-        console.log(filtered)
+        //console.log("filtro")
+        //console.log(filtered)
       } 
     })
     if(event.target.value === " "){
@@ -46,7 +46,7 @@ const App = () => {
   return (
     <>
       <Filter value={newFilter} onChange={handleFilter} />
-      <Countries countries={countriesFiltered} />
+      <Content countriesFiltered={countriesFiltered} setCountriesFiltered={setCountriesFiltered}/>
     </>
   );
 }

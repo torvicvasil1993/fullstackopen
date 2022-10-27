@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Filter = ({value, onChange}) => {
-  //console.log("value", value)
+  console.log("value", value)
   return (<form>
     <div>
       find countries <input 
