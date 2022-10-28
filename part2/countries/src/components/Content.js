@@ -1,10 +1,11 @@
 import React from 'react'
 import Button from './Button'
 import Country from './Country'
-
+import Weather from './Weather'
 
 
 const Content = ({countriesFiltered , setCountriesFiltered}) => {
+    
 
     //console.log(countries)
     if(countriesFiltered.length > 1 && countriesFiltered.length <= 10){
@@ -25,7 +26,10 @@ const Content = ({countriesFiltered , setCountriesFiltered}) => {
     else if (countriesFiltered.length === 1) {
         console.log("Equals to 1",countriesFiltered)
         return (
-            <Country country={countriesFiltered[0]}/>
+            <>
+                <Country country={countriesFiltered[0]}/>
+                <Weather capitalInfo={countriesFiltered[0].capitalInfo} country={countriesFiltered[0].name.common}/>
+            </>
         )
     }
     else if (countriesFiltered.length > 10) {
