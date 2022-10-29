@@ -3,6 +3,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personsService from './services/persons'
 
 /* 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
@@ -20,13 +21,14 @@ const App = () => {
 
  useEffect(() => {
   console.log('effect')
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
+  personsService
+    .getAll()
+    .then(initialPersons => {
       console.log('promise fulfilled')
-      console.log(response.data)
-      setPersons(response.data)
-      setPersonsFiltered(response.data)
+      console.log(initialPersons)
+
+      setPersons(initialPersons)
+      setPersonsFiltered(initialPersons)
     })
   }, [])
 
@@ -45,8 +47,15 @@ const App = () => {
       window.alert(`${newName} is already added to phonebook`);
     }
     else {
-      setPersons(persons.concat(personObject))
-      setPersonsFiltered(persons.concat(personObject))
+
+      personsService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setPersonsFiltered(persons.concat(personObject))
+
+      })
+      
     }
     setNewName('')
     setNewNumber('')
