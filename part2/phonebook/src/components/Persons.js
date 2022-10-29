@@ -1,8 +1,16 @@
 import React from 'react'
 
-const Persons = ({person}) => {
+const Persons = ({person, deletePerson}) => {
   return(
-    <div> {person.name} {person.number}</div>
+    <div> {person.name} {person.number}
+      <button onClick={() => {
+        if (window.confirm(`Delete ${person.name} ?`)) {
+          deletePerson(person.id)
+        }
+        
+      }
+      }>Delete</button>
+    </div>
   )
 }
 

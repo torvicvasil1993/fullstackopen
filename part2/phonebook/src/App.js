@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -50,15 +49,22 @@ const App = () => {
 
       personsService
       .create(personObject)
-      .then(returnedPerson => {
+      .then(returnedPerson => {  
         setPersons(persons.concat(returnedPerson))
-        setPersonsFiltered(persons.concat(personObject))
-
+        setPersonsFiltered(persons.concat(returnedPerson))
+        console.log("add person",personsFiltered)
       })
-      
     }
     setNewName('')
     setNewNumber('')
+  }
+
+  const deletePerson = (id) => {
+    personsService.deletePerson(id).then(() => { 
+      setPersons(persons.filter(person => person.id !== id))
+      setPersonsFiltered(persons.filter(person => person.id !== id))
+    })     
+        
   }
 
 
@@ -118,7 +124,7 @@ const App = () => {
         />
       <h2>Numbers</h2>
       {personsFiltered.map(person =>
-          <Persons key={person.name} person={person} />
+          <Persons key={person.name} person={person} deletePerson={() => deletePerson(person.id)}/>
       )}
     </div>
   )

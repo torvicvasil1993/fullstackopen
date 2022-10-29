@@ -11,12 +11,12 @@ const create = newObject => {
   return request.then(response => response.data)
 }
 
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
+const deletePerson = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`)
   return request.then(response => response.data)
 }
 
 //https://bobbyhadz.com/blog/react-assign-object-to-variable-before-exporting-as-module
-const methods = { getAll, create, update }
+const methods = { getAll, create, deletePerson }
 
 export default methods
