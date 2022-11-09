@@ -3,6 +3,8 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personsService from './services/persons'
+import Notification from './components/Notification'
+import ErrorMessage from './components/ErrorMessage'
 
 /* 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
@@ -17,6 +19,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [personsFiltered, setPersonsFiltered] = useState([])
+  const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
+
+
 
  useEffect(() => {
   console.log('effect')
@@ -49,8 +55,22 @@ const App = () => {
           .then( returnedPerson => {
             setPersons( persons.map( person => person.id !== found.id ? person : returnedPerson ) ) 
             setPersonsFiltered( persons.map( person => person.id !== found.id ? person : returnedPerson ) )
-          }
-        )
+            setMessage( `Updated '${newName}'` )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            setErrorMessage(
+              `'${newName}' was already removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setPersons(persons.filter(n => n.id !== found.id))
+            setPersonsFiltered(persons.filter(n => n.id !== found.id))
+          })
+        
           
       }
     }
@@ -62,6 +82,10 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setPersonsFiltered(persons.concat(returnedPerson))
         console.log("add person",personsFiltered)
+        setMessage( `Added '${newName}'` )
+        setTimeout(() => {
+              setMessage(null)
+        }, 5000)
       })
     }
     setNewName('')
@@ -122,6 +146,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
+      <ErrorMessage message={errorMessage} />
       <Filter value={newFilter} onChange={handleFilter} />
       <h2>add a new</h2>
        <PersonForm 
