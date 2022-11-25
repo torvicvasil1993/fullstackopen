@@ -11,3 +11,7 @@ torvicvasil@WPA08D71SWD3N:~/fullstackopen/part3/notes-backend$ export FLYCTL_INS
 torvicvasil@WPA08D71SWD3N:~/fullstackopen/part3/notes-backend$ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
 fly deploy
+
+
+https://stackoverflow.com/questions/51126472/how-to-organise-file-structure-of-backend-and-frontend-in-mern
+https://www.baeldung.com/linux/kill-process-on-port
